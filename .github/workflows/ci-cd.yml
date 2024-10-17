@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-        
+
       - name: List Files
         run: ls -la
   
@@ -56,4 +56,5 @@ jobs:
 
       
         
+curl -X POST "http://localhost:2727/predict" -H "accept: application/json" -H "Content-Type: application/json" -d '{"size":69,"nb_rooms":1, "garden": 1}'
 
