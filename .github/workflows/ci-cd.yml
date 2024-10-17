@@ -14,7 +14,7 @@ jobs:
       - name: Build and Push Docker Images
         run:
             docker build -t misterfacile/fastapi-app:latest .
-            docker push myusername/fastapi-app:latest
+            docker push misterfacile/fastapi-app:latest
   deploy:
     runs-on: ubuntu-latest
     needs: build
