@@ -1,10 +1,12 @@
 from fastapi import FastAPI
+import os
 import pandas as pd
 import model_app
 import train_model
 from pydantic import BaseModel, validator
 
-train_model.build_bert_model()
+if not os.path.exists('./bert_regression_model') :
+    train_model.build_bert_model()
 class HouseData(BaseModel):
     size: float
     nb_rooms: int

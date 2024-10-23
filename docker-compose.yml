@@ -4,4 +4,4 @@ services:
   fastapi-app:
     image: misterfacile/fastapi-app:latest
     ports:
-      - "2727:2727"
+      - "7050:7050"
