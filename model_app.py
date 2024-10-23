@@ -1,18 +1,21 @@
 import joblib
 import streamlit as st
 import pandas as pd
-from pydantic import BaseModel, validator
-from transformers import DistilBertTokenizer, DistilBertForSequenceClassification
 import torch
+import train_model
+
+from transformers import DistilBertTokenizer, DistilBertForSequenceClassification
+from sklearn.preprocessing import MinMaxScaler
 
 def load_model():
-    
     model = joblib.load('./regression.joblib')
     return model
 
 def load_bert_model():
-    model = DistilBertForSequenceClassification.from_pretrained('./bert_regression_model')
-    tokenizer = DistilBertTokenizer.from_pretrained('./bert_regression_model')
+    model = train_model.DistilBertForRegression()
+    model.load_state_dict(torch.load('./bert_regression_model/model.pth'))
+    model.eval()
+    tokenizer = DistilBertTokenizer.from_pretrained('./bert_regression_model/tokenizer/')
     return model, tokenizer
 
 def predict_model(input_data):
@@ -56,7 +59,6 @@ def load_dashboard():
         st.write("Error : No data or data incorrect", e)
         
 def load_dashboard_bert_model():
-    
     model, tokenizer = load_bert_model()
     
     house_size = st.number_input(
@@ -71,18 +73,26 @@ def load_dashboard_bert_model():
     text = f"This house is {house_size} square meters, has {house_bedroom} bedrooms, and {'has' if house_garden == 1 else 'does not have'} a garden."
     inputs = tokenizer(text, padding=True, truncation=True, return_tensors="pt")
     
+    input_ids = inputs['input_ids']
+    attention_mask = inputs['attention_mask']
+    
+    # Inverse the Scaler to obtain the real result
+    df = pd.read_csv("./houses.csv")
+    y = df['price'].values.reshape(-1, 1)
+    scaler = MinMaxScaler()
+    scaler.fit(y)
+    
     try : 
         with torch.no_grad():
-            outputs = model(**inputs)
-            predicted_price = outputs.logits.item()
-            st.write("Predictions Price", predicted_price)
+            predicted_price = model(input_ids, attention_mask)
+        predicted_price = predicted_price.item()
+        predicted_price_actual = scaler.inverse_transform([[predicted_price]])[0][0]
+        st.write("Predictions Price", predicted_price_actual)
     except Exception as e:
         st.write("Error : No data or data incorrect", e)
 
 def main():
     st.title("House Price Prediction Dashboard")
-    
-    # You can toggle between different models using a radio button
     model_choice = st.radio("Choose model to use:", ("Classic Regression Model", "BERT Model"))
     
     if model_choice == "Classic Regression Model":

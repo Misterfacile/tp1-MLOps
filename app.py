@@ -1,8 +1,9 @@
-from fastapi import FastAPI
 import os
 import pandas as pd
 import model_app
 import train_model
+
+from fastapi import FastAPI
 from pydantic import BaseModel, validator
 
 if not os.path.exists('./bert_regression_model') :
@@ -18,6 +19,7 @@ class HouseData(BaseModel):
         if v not in [0, 1]:
             raise ValueError('garden must be either 0 or 1')
         return v
+
 app = FastAPI()
 
 @app.get("/")
