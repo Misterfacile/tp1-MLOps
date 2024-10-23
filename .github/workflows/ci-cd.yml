@@ -28,7 +28,7 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-          
+
       - name: SSH to Server and Deploy
         uses: appleboy/scp-action@master
         with:
@@ -47,7 +47,7 @@ jobs:
             password: ${{ secrets.SERVER_PASSWORD }}
             script: |
               cd /home/ubuntu/paul.guan
-              docker rmi -f misterfacile/fastapi-app:latest
               docker-compose down
-              docker-compose up
+              docker rmi -f misterfacile/fastapi-app:latest
+              docker-compose up -d
             timeout: 60m
