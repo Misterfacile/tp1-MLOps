@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 import pandas as pd
 import model_app
+import train_model
 from pydantic import BaseModel, validator
 
+train_model.build_bert_model()
 class HouseData(BaseModel):
     size: float
     nb_rooms: int
@@ -30,3 +32,8 @@ async def predict(data: HouseData):
     
     predictions = model_app.predict_model(input_data)
     return {"prediction_price": predictions[0]}
+
+@app.post("/predict_with_bert")
+async def predict_bert(data: HouseData):
+    predictions = model_app.predict_bert_model(data.size, data.nb_rooms, data.garden)
+    return {"prediction_price": predictions}

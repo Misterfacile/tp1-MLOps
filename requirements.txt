@@ -8,3 +8,5 @@ fastapi[standard]
 scikit-learn
 scipy 
 matplotlib
+torch
+tf-keras

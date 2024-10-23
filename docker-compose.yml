@@ -5,5 +5,3 @@ services:
     image: misterfacile/fastapi-app:latest
     ports:
       - "2727:2727"
-    volumes:
-      - .:/app
