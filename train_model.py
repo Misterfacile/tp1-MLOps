@@ -35,7 +35,6 @@ def build_bert_model():
     
     scaler = MinMaxScaler()
     y_scaled = scaler.fit_transform(y).flatten()
-    print(y_scaled)
 
     tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased')
     X_tokenized = tokenizer(X, padding=True, truncation=True, return_tensors='pt', max_length=128)
@@ -84,5 +83,5 @@ def build_bert_model():
 
             print(f"Epoch: {epoch + 1}, Loss: {loss.item()}")
 
-    torch.save(model.state_dict(), './bert_regression_model/model.pth')
-    tokenizer.save_pretrained('./bert_regression_model/tokenizer/')
+    torch.save(model.state_dict(), './model/model_DistilBERT.pth')
+    tokenizer.save_pretrained('./model/tokenizer/')
