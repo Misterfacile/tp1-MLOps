@@ -10,3 +10,4 @@ scipy
 matplotlib
 torch
 tf-keras
+transformers

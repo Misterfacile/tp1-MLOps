@@ -52,3 +52,4 @@ jobs:
               cd /home/ubuntu/paul.guan
               docker-compose down
               docker-compose up
+            timeout: 60m
