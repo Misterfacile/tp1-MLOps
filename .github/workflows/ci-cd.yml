@@ -51,4 +51,4 @@ jobs:
             script: |
               cd /home/ubuntu/paul.guan
               docker-compose down
-              docker-compose up -d
+              docker-compose up
