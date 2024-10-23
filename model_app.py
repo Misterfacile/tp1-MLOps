@@ -8,7 +8,7 @@ from transformers import DistilBertTokenizer, DistilBertForSequenceClassificatio
 from sklearn.preprocessing import MinMaxScaler
 
 def load_model():
-    model = joblib.load('./regression.joblib')
+    model = joblib.load('./model/regression.joblib')
     return model
 
 def load_bert_model():
