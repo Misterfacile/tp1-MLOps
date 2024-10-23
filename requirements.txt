@@ -11,3 +11,4 @@ matplotlib
 torch
 tf-keras
 transformers
+accelerate
