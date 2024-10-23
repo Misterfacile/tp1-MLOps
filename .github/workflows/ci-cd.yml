@@ -50,4 +50,5 @@ jobs:
               docker-compose down
               docker rmi -f misterfacile/fastapi-app:latest
               docker-compose up -d
+              echo "BUILDING/LOADING the model and API..."
             timeout: 60m

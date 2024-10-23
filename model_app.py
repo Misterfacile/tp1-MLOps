@@ -13,9 +13,9 @@ def load_model():
 
 def load_bert_model():
     model = train_model.DistilBertForRegression()
-    model.load_state_dict(torch.load('./bert_regression_model/model.pth'))
+    model.load_state_dict(torch.load('./model/model.pth'))
     model.eval()
-    tokenizer = DistilBertTokenizer.from_pretrained('./bert_regression_model/tokenizer/')
+    tokenizer = DistilBertTokenizer.from_pretrained('./model/tokenizer/')
     return model, tokenizer
 
 def predict_model(input_data):
